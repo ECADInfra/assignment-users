@@ -1,0 +1,6 @@
+---
+- name: Provision users accounts for the ECAD team
+  hosts: all
+  become: true
+  roles:
+    - role: user_management

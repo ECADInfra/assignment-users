@@ -1,0 +1,10 @@
+all:
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    ansible_ssh_user: automata
+
+  children:
+    assignment_vms:
+      hosts:
+        derek-celestia-vm:
+          ansible_host: 35.230.80.82

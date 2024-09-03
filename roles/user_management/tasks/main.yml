@@ -1,0 +1,32 @@
+---
+- name: Install packages for Debian-based systems
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ packages }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Install packages for Red Hat-based systems
+  ansible.builtin.yum:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ packages }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: Ensure users are present
+  ansible.builtin.user:
+    append: true
+    name: "{{ item.name }}"
+    group: "adm"
+    groups: "{{ item.groups }}"
+    shell: "{{ item.shell | default('/bin/zsh') }}"
+  loop: "{{ users_to_manage }}"
+  when: "'all' in item.host_access or inventory_hostname in item.host_access"
+
+- name: Ensure user's key is present
+  ansible.posix.authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: "{{ lookup('file', 'files/public_keys/{{ item.key | default(item.name) }}.pub') }}"
+  loop: "{{ users_to_manage }}"
+  when: "'all' in item.host_access or inventory_hostname in item.host_access"
