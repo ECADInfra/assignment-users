@@ -11,3 +11,10 @@ users_to_manage:
     groups: "{{ 'wheel' if ansible_facts['os_family'] == 'RedHat' else 'sudo' }}, docker"
     host_access:
       - all
+
+  # Defines the managed packages and user groups
+  # Pre-requisite Task 1: Add your user to the user_management role
+  - name: kdh4646 #Derek
+    groups: "{{ 'wheel' if ansible_facts['os_family'] == 'RedHat' else 'sudo'}}, docker"
+    host_access:
+      - all
