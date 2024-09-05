@@ -17,4 +17,4 @@ users_to_manage:
   - name: kdh4646 #Derek
     groups: "{{ 'wheel' if ansible_facts['os_family'] == 'RedHat' else 'sudo'}}, docker"
     host_access:
-      - all
+      - derek-celestia-vm
